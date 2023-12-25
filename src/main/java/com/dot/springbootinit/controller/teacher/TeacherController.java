@@ -1,0 +1,14 @@
+package com.dot.springbootinit.controller.teacher;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/teacher")
+@Slf4j
+public class TeacherController {
+
+
+
+}
