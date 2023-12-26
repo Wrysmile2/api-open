@@ -1,19 +1,22 @@
 package com.dot.springbootinit.esdao;
 
-import com.dot.springbootinit.model.dto.post.PostEsDTO;
-import com.dot.springbootinit.model.dto.post.PostQueryRequest;
-import com.dot.springbootinit.model.entity.Post;
-import com.dot.springbootinit.service.PostService;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import javax.annotation.Resource;
+import com.wwcr.springbootinit.esdao.PostEsDao;
+import com.wwcr.springbootinit.model.dto.post.PostEsDTO;
+import com.wwcr.springbootinit.model.dto.post.PostQueryRequest;
+import com.wwcr.springbootinit.model.entity.Post;
+import com.wwcr.springbootinit.service.PostService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+
+
+import javax.annotation.Resource;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * 帖子 ES 操作测试

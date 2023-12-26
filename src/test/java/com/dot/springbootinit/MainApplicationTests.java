@@ -1,6 +1,6 @@
 package com.dot.springbootinit;
 
-import com.dot.springbootinit.config.WxOpenConfig;
+import com.wwcr.springbootinit.config.WxOpenConfig;
 import javax.annotation.Resource;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

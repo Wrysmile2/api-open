@@ -1,6 +1,8 @@
 package com.dot.springbootinit.service;
 
 import javax.annotation.Resource;
+
+import com.wwcr.springbootinit.service.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,7 +21,7 @@ public class UserServiceTest {
 
     @Test
     void userRegister() {
-        String userAccount = "yupi";
+        String userAccount = "wwcr";
         String userPassword = "";
         String checkPassword = "123456";
         try {

@@ -1,6 +1,7 @@
 package com.dot.springbootinit.mapper;
 
-import com.dot.springbootinit.model.entity.Post;
+import com.wwcr.springbootinit.mapper.PostMapper;
+import com.wwcr.springbootinit.model.entity.Post;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.Resource;
