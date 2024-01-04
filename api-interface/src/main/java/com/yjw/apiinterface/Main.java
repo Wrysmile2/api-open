@@ -5,7 +5,9 @@ import com.yjw.apiinterface.model.User;
 
 public class Main {
     public static void main(String[] args) {
-        ApiClient apiClient = new ApiClient();
+        String accessKey = "yupi";
+        String secretKey = "abcdefgh";
+        ApiClient apiClient = new ApiClient(accessKey,secretKey);
         String result1 = apiClient.getNameByGet("鱼皮");
         String result2 = apiClient.getNameByPost("鱼皮");
         User user = new User();
