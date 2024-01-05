@@ -1,7 +1,7 @@
 package com.yjw.apiinterface;
 
-import com.yjw.apiinterface.client.ApiClient;
-import com.yjw.apiinterface.model.User;
+import com.yjw.apiclientsdk.client.ApiClient;
+import com.yjw.apiclientsdk.model.User;
 
 public class Main {
     public static void main(String[] args) {
@@ -11,7 +11,7 @@ public class Main {
         String result1 = apiClient.getNameByGet("鱼皮");
         String result2 = apiClient.getNameByPost("鱼皮");
         User user = new User();
-        user.setUsername("李鱼皮");
+        user.setUsername("liyupi");
         String result3 = apiClient.getUsernameByPost(user);
         System.out.println(result1);
         System.out.println(result2);

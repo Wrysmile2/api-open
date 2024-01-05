@@ -1,16 +1,19 @@
-package com.yjw.apiinterface.client;
+package com.yjw.apiclientsdk.client;
 
+import cn.hutool.core.util.RandomUtil;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
-import com.yjw.apiinterface.model.User;
+import com.yjw.apiclientsdk.model.User;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.yjw.apiclientsdk.utils.SignUtils.getSign;
+
 
 /**
  * 调用第三方接口的客户端
@@ -35,7 +38,7 @@ public class ApiClient {
         return result;
     }
 
-    public String getNameByPost(@RequestParam String name) {
+    public String getNameByPost(String name) {
         //可以单独传入http参数，这样参数会自动做URL编码，拼接在URL中
         HashMap<String, Object> paramMap = new HashMap<>();
         paramMap.put("name", name);
@@ -44,17 +47,23 @@ public class ApiClient {
         return result;
     }
 
-    private Map<String,String> getHeaderMap(){
-        HashMap<String, String> hashMap = new HashMap<>();
+
+    private Map<String, String> getHeaderMap(String body) {
+        Map<String, String> hashMap = new HashMap<>();
         hashMap.put("accessKey", accessKey);
-        hashMap.put("secretKey", secretKey);
+        //一定不能直接发送
+        //hashMap.put("secretKey", secretKey);
+        hashMap.put("nonce", RandomUtil.randomNumbers(4));
+        hashMap.put("body", body);
+        hashMap.put("timestamp", String.valueOf(System.currentTimeMillis() / 1000));
+        hashMap.put("sign", getSign(body, secretKey));
         return hashMap;
     }
 
-    public String getUsernameByPost(@RequestBody User user) {
+    public String getUsernameByPost(User user) {
         String json = JSONUtil.toJsonStr(user);
         HttpResponse httpResponse = HttpRequest.post("http://localhost:8123/api/name/user")
-                .addHeaders(getHeaderMap())
+                .addHeaders(getHeaderMap(json))
                 .body(json)
                 .execute();
         System.out.println(httpResponse.getStatus());

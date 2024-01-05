@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="springboot-init" />
+        <module name="api-client-sdk" />
         <module name="api-backend" />
         <module name="api-interface" />
       </profile>
@@ -15,6 +16,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="api-backend" options="-parameters" />
+      <module name="api-client-sdk" options="-parameters" />
       <module name="api-interface" options="-parameters" />
       <module name="springboot-init" options="-parameters" />
     </option>
