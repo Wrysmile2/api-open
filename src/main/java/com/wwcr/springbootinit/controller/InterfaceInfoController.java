@@ -2,21 +2,19 @@ package com.wwcr.springbootinit.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.google.gson.Gson;
 import com.wwcr.springbootinit.annotation.AuthCheck;
 import com.wwcr.springbootinit.common.*;
 import com.wwcr.springbootinit.constant.CommonConstant;
 import com.wwcr.springbootinit.exception.BusinessException;
 import com.wwcr.springbootinit.model.dto.interfaceinfo.InterfaceInfoAddRequest;
-import com.wwcr.springbootinit.model.dto.interfaceinfo.InterfaceInfoInvokeRequest;
 import com.wwcr.springbootinit.model.dto.interfaceinfo.InterfaceInfoQueryRequest;
 import com.wwcr.springbootinit.model.dto.interfaceinfo.InterfaceInfoUpdateRequest;
-
 import com.wwcr.springbootinit.model.entity.InterfaceInfo;
 import com.wwcr.springbootinit.model.entity.User;
+import com.wwcr.springbootinit.model.enums.InterfaceInfoStatusEnum;
 import com.wwcr.springbootinit.service.InterfaceInfoService;
 import com.wwcr.springbootinit.service.UserService;
-
+import com.yjw.apiclientsdk.client.ApiClient;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -28,9 +26,6 @@ import java.util.List;
 
 /**
  * 接口管理
- *
- * @author <a href="https://github.com/liyupi">程序员鱼皮</a>
- * @from <a href="https://yupi.icu">编程导航知识星球</a>
  */
 @RestController
 @RequestMapping("/interfaceInfo")
@@ -42,6 +37,9 @@ public class InterfaceInfoController {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private ApiClient apiClient;
 
     // region 增删改查
 
@@ -197,5 +195,74 @@ public class InterfaceInfoController {
     }
 
     // endregion
+
+    /**
+     * 发布
+     *
+     * @param idRequest
+     * @param request
+     * @return
+     */
+    @PostMapping("/online")
+    @AuthCheck(mustRole = "admin")
+    public BaseResponse<Boolean> onlineInterfaceInfo(@RequestBody IdRequest idRequest,
+                                                     HttpServletRequest request) {
+
+        if (idRequest == null || idRequest.getId() <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+
+        long id = idRequest.getId();
+        //判断是否存在
+        InterfaceInfo oldInterfaceInfo = interfaceInfoService.getById(id);
+        if (oldInterfaceInfo == null) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
+        }
+
+        //判断该接口是否可以调用
+        com.yjw.apiclientsdk.model.User user1 = new com.yjw.apiclientsdk.model.User();
+        user1.setUsername("test");
+        String nameByPost = apiClient.getUsernameByPost(user1);
+        if (StringUtils.isBlank(nameByPost)) {
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "接口校验失败");
+        }
+
+        // 仅本人或管理员可修改
+        InterfaceInfo interfaceInfo = new InterfaceInfo();
+        interfaceInfo.setId(id);
+        interfaceInfo.setStatus(InterfaceInfoStatusEnum.ONLINE.getValue());
+        boolean result = interfaceInfoService.updateById(interfaceInfo);
+        return ResultUtils.success(result);
+    }
+
+    /**
+     * 下线
+     *
+     * @param idRequest
+     * @param request
+     * @return
+     */
+    @PostMapping("/offline")
+    public BaseResponse<Boolean> offlineInterfaceInfo(@RequestBody IdRequest idRequest,
+                                                      HttpServletRequest request) {
+        if (idRequest == null || idRequest.getId() <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+
+        long id = idRequest.getId();
+        //判断是否存在
+        InterfaceInfo oldInterfaceInfo = interfaceInfoService.getById(id);
+        if (oldInterfaceInfo == null) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
+        }
+
+        // 仅本人或管理员可修改
+        InterfaceInfo interfaceInfo = new InterfaceInfo();
+        interfaceInfo.setId(id);
+        interfaceInfo.setStatus(InterfaceInfoStatusEnum.OFFLINE.getValue());
+        boolean result = interfaceInfoService.updateById(interfaceInfo);
+        return ResultUtils.success(result);
+    }
+
 
 }
