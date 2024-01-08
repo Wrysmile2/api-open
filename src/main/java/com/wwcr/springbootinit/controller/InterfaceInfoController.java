@@ -2,11 +2,13 @@ package com.wwcr.springbootinit.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.gson.Gson;
 import com.wwcr.springbootinit.annotation.AuthCheck;
 import com.wwcr.springbootinit.common.*;
 import com.wwcr.springbootinit.constant.CommonConstant;
 import com.wwcr.springbootinit.exception.BusinessException;
 import com.wwcr.springbootinit.model.dto.interfaceinfo.InterfaceInfoAddRequest;
+import com.wwcr.springbootinit.model.dto.interfaceinfo.InterfaceInfoInvokeRequest;
 import com.wwcr.springbootinit.model.dto.interfaceinfo.InterfaceInfoQueryRequest;
 import com.wwcr.springbootinit.model.dto.interfaceinfo.InterfaceInfoUpdateRequest;
 import com.wwcr.springbootinit.model.entity.InterfaceInfo;
@@ -243,6 +245,7 @@ public class InterfaceInfoController {
      * @return
      */
     @PostMapping("/offline")
+    @AuthCheck(mustRole = "admin")
     public BaseResponse<Boolean> offlineInterfaceInfo(@RequestBody IdRequest idRequest,
                                                       HttpServletRequest request) {
         if (idRequest == null || idRequest.getId() <= 0) {
@@ -262,6 +265,40 @@ public class InterfaceInfoController {
         interfaceInfo.setStatus(InterfaceInfoStatusEnum.OFFLINE.getValue());
         boolean result = interfaceInfoService.updateById(interfaceInfo);
         return ResultUtils.success(result);
+    }
+
+    /**
+     * 测试调用
+     * @param interfaceInfoInvokeRequest
+     * @param request
+     * @return
+     */
+    @PostMapping("/invoke")
+    public BaseResponse<Object> InvokeInterfaceInfo(@RequestBody InterfaceInfoInvokeRequest interfaceInfoInvokeRequest,
+                                                      HttpServletRequest request) {
+        if (interfaceInfoInvokeRequest == null || interfaceInfoInvokeRequest.getId() <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+
+        long id = interfaceInfoInvokeRequest.getId();
+        String userRequestParams = interfaceInfoInvokeRequest.getUserRequestParams();
+        //判断是否存在
+        InterfaceInfo oldInterfaceInfo = interfaceInfoService.getById(id);
+        if (oldInterfaceInfo == null) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
+        }
+        if (oldInterfaceInfo.getStatus() == InterfaceInfoStatusEnum.OFFLINE.getValue()) {
+            throw new BusinessException(ErrorCode.OPERATION_ERROR, "接口已下线");
+        }
+
+        User loginUser = userService.getLoginUser(request);
+        String accessKey = loginUser.getAccessKey();
+        String secretKey = loginUser.getSecretKey();
+        ApiClient tempClient = new ApiClient(accessKey,secretKey);
+        Gson gson = new Gson();
+        com.yjw.apiclientsdk.model.User user = gson.fromJson(userRequestParams, com.yjw.apiclientsdk.model.User.class);
+        String usernameByPost = tempClient.getUsernameByPost(user);
+        return ResultUtils.success(usernameByPost);
     }
 
 
