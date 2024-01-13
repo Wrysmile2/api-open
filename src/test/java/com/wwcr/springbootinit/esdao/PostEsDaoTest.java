@@ -1,6 +1,5 @@
-package com.dot.springbootinit.esdao;
+package com.wwcr.springbootinit.esdao;
 
-import com.wwcr.springbootinit.esdao.PostEsDao;
 import com.wwcr.springbootinit.model.dto.post.PostEsDTO;
 import com.wwcr.springbootinit.model.dto.post.PostQueryRequest;
 import com.wwcr.springbootinit.model.entity.Post;

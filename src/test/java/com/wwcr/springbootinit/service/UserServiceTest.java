@@ -1,8 +1,7 @@
-package com.dot.springbootinit.service;
+package com.wwcr.springbootinit.service;
 
 import javax.annotation.Resource;
 
-import com.wwcr.springbootinit.service.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

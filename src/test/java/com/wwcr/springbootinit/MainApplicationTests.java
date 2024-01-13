@@ -1,25 +1,25 @@
-package com.dot.springbootinit.manager;
+package com.wwcr.springbootinit;
 
+import com.wwcr.springbootinit.config.WxOpenConfig;
 import javax.annotation.Resource;
-
-import com.wwcr.springbootinit.manager.CosManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 /**
- * Cos 操作测试
+ * 主类测试
  *
   * @author <a href="https://github.com/a-bleak-morning"dot</a>
  * 
  */
 @SpringBootTest
-class CosManagerTest {
+class MainApplicationTests {
 
     @Resource
-    private CosManager cosManager;
+    private WxOpenConfig wxOpenConfig;
 
     @Test
-    void putObject() {
-        cosManager.putObject("test", "test.json");
+    void contextLoads() {
+        System.out.println(wxOpenConfig);
     }
+
 }

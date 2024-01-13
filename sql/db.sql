@@ -38,3 +38,17 @@ insert into examination.`interface_info` (`name`, `description`, `url`, `request
 insert into examination.`interface_info` (`name`, `description`, `url`, `requestHeader`, `responseHeader`, `status`, `method`, `userId`) values ('彭博文', '郝鑫磊', 'www.roy-mayer.org', '雷弘文', '谢泽洋', 0, '龚伟诚', 82899515);
 insert into examination.`interface_info` (`name`, `description`, `url`, `requestHeader`, `responseHeader`, `status`, `method`, `userId`) values ('梁博超', '张凯瑞', 'www.ruthe-altenwerth.com', '贺博涛', '赵子默', 0, '郭烨霖', 975083758);
 insert into examination.`interface_info` (`name`, `description`, `url`, `requestHeader`, `responseHeader`, `status`, `method`, `userId`) values ('雷越泽', '孙子涵', 'www.annetta-kuvalis.io', '莫昊强', '阎伟祺', 0, '孟梓晨', 73231221);
+
+ -- 用户调用接口关系表
+create table if not exists examination.`user_interface_info`
+(
+    `id` bigint not null auto_increment comment '主键' primary key,
+    `userId` bigint not null comment '调用用户 id',
+    `interfaceInfoId` bigint not null comment '接口 id',
+    `totalNum` int default 0 not null comment '总调用次数',
+    `LeftNum` int default 0 not null comment '刹余调用次数',
+    `status` int default 0 not null comment '0-正常，I-禁用',
+    `createTime` datetime default CURRENT_TIMESTAMP not null comment '创建时间',
+    `updateTime` datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment'更新时间',
+    `isDelete` tinyint default 0 not null comment'是否别除(0-未删，1-已删)'
+)comment'用户调用接口关系';

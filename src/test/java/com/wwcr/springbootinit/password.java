@@ -1,4 +1,4 @@
-package com.dot.springbootinit;
+package com.wwcr.springbootinit;
 
 import org.springframework.util.DigestUtils;
 

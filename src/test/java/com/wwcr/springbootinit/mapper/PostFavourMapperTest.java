@@ -1,9 +1,8 @@
-package com.dot.springbootinit.mapper;
+package com.wwcr.springbootinit.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wwcr.springbootinit.mapper.PostFavourMapper;
 import com.wwcr.springbootinit.model.entity.Post;
 import javax.annotation.Resource;
 import org.junit.jupiter.api.Assertions;

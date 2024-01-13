@@ -1,9 +1,8 @@
-package com.dot.springbootinit.service;
+package com.wwcr.springbootinit.service;
 
 import com.wwcr.springbootinit.model.entity.User;
 import javax.annotation.Resource;
 
-import com.wwcr.springbootinit.service.PostThumbService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

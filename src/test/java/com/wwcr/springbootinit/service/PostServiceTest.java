@@ -1,11 +1,10 @@
-package com.dot.springbootinit.service;
+package com.wwcr.springbootinit.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wwcr.springbootinit.model.dto.post.PostQueryRequest;
 import com.wwcr.springbootinit.model.entity.Post;
 import javax.annotation.Resource;
 
-import com.wwcr.springbootinit.service.PostService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

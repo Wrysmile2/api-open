@@ -46,7 +46,9 @@ public class NameController {
         if (!sign.equals(serversign)){
             throw new RuntimeException("无权限");
         }
-        return "POST 用户名字是：" + user.getUsername();
+        String result =  "POST 用户名字是：" + user.getUsername();
+        //调用成功后
+        return result;
     }
 
 
